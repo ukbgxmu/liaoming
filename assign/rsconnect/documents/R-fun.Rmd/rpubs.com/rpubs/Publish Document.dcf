@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/1330884/04ab2a11956246b6b088e8cedac92fa3
+bundleId: https://api.rpubs.com/api/v1/document/1330884/04ab2a11956246b6b088e8cedac92fa3
+url: http://rpubs.com/maoyan/1330884
+version: 1
