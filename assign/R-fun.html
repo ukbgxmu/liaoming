@@ -357,11 +357,10 @@ display: none;
 </div>
 
 
-<div id="新建r-fun-自己名字拼音.r的代码完成以下三大部分内容" class="section level3">
-<h3>新建<strong><code>&quot;R-fun-自己名字拼音.R&quot;</code></strong>的代码，完成以下三大部分内容</h3>
-</div>
-<div id="关于函数的学习" class="section level2">
-<h2>1. 关于函数的学习</h2>
+<div id="新建r-fun-自己名字拼音.r的代码完成以下三大部分内容" class="section level2">
+<h2>新建<strong><code>&quot;R-fun-自己名字拼音.R&quot;</code></strong>的代码，完成以下三大部分内容</h2>
+<div id="关于函数的学习" class="section level3">
+<h3>1. 关于函数的学习</h3>
 <p>1.1
 用<code>data.frame</code>生存一个名字为<code>a</code>的数据框，其中<code>a1</code>列是（2，4，6），<code>a2</code>列是（3，5，8），<code>a3</code>列是（4，1，9），并用<code>head</code>展示出来</p>
 <pre class="r"><code>head(a)</code></pre>
@@ -391,12 +390,12 @@ display: none;
 <pre><code>## # A tibble: 3 × 6
 ##   expression      min   median `itr/sec` mem_alloc `gc/sec`
 ##   &lt;bch:expr&gt; &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt; &lt;bch:byt&gt;    &lt;dbl&gt;
-## 1 base         8.18µs   9.29µs    98295.        0B     19.7
-## 2 pmin_apply  54.84µs  61.35µs    14903.    6.23KB     16.6
-## 3 pmin_for   232.43µs 255.05µs     3637.        0B     16.8</code></pre>
+## 1 base          8.6µs   9.46µs    96266.        0B     19.3
+## 2 pmin_apply   55.4µs  60.19µs    14714.    6.23KB     16.7
+## 3 pmin_for    229.8µs 246.46µs     3677.        0B     16.9</code></pre>
 </div>
-<div id="关于merge的理解" class="section level2">
-<h2>2. 关于merge的理解</h2>
+<div id="关于merge的理解" class="section level3">
+<h3>2. 关于merge的理解</h3>
 <p>2.1
 用<code>data.frame</code>生成一个名字为<code>b1</code>的数据框，其中<code>name</code>列是(“文”,“颜”,“唐”,“黄”)，对应的<code>score</code>列是（95，96，97，98）,同样方法生存<code>b2</code>的数据框，两者展示如下</p>
 <pre class="r"><code>head(b1)</code></pre>
@@ -426,15 +425,27 @@ display: none;
 ## 文    95      uuu1016
 ## 颜    96 yanyutong111</code></pre>
 </div>
-<div id="关于代码的共享操作" class="section level2">
-<h2>3. 关于代码的共享操作</h2>
-<p>3.1
-以上代码运行无误以后，把<strong><code>R-fun-自己名字.R</code></strong>的代码，通过<code>github desktop</code>同步到自己github账户下的<strong>code</strong>文件夹；</p>
+<div id="关于代码的共享操作" class="section level3">
+<h3>3. 关于代码的共享操作</h3>
+<p>3.1 确保以上代码运行无误以后，</p>
+<div id="把r-fun-自己名字拼音.r这个文件上传同步到自己github账户下的code文件夹" class="section level4">
+<h4>把<strong><code>R-fun-自己名字拼音.R</code></strong>这个文件，上传/同步到自己github账户下的<strong>code</strong>文件夹;</h4>
+<p>备注：建议通过<code>github desktop</code>进行同步</p>
 <p>3.2
-根据<strong><code>R-fun-自己名字.R</code></strong>的代码，新建一个同名的<code>.Rmd</code>文件（R
-Markdown格式的文件），可通过AI辅助（推荐使用<code>VS code + github coploit</code>的组合，当然使用<code>Deepseek</code>等工具也可以），运行成功后保存为一个新的<strong><code>html格式</code></strong>文件，这是R代码运行后的结果展示，这个文件保存后，也同样同步到<code>github</code>的<strong>code文</strong>件夹；</p>
+根据以上<code>R</code>的代码，新建一个同名的<strong><code>R-fun-自己名字.Rmd</code></strong>文件（R
+Markdown格式的文件），可通过AI辅助（推荐使用<code>VS code + github coploit</code>的组合，当然使用<code>Deepseek</code>等工具也可以），<code>Rmd</code>代码运行(<code>Knit</code>)成功后，会生成一个新的<strong><code>R-fun-自己名字.html</code></strong>文件，这是<code>Rmd</code>代码运行后的网页版展示形式;</p>
+</div>
+<div id="这个两个文件rmd文件和html文件保存后也上传同步到github的code文件夹" class="section level4">
+<h4>这个两个文件（<code>Rmd文件</code>和<code>html文件</code>）保存后，也上传/同步到<code>github</code>的<strong>code文</strong>件夹；</h4>
+<p>备注：建议通过<code>github desktop</code>进行同步</p>
 <p>3.3 以上R
-Markdown格式的文件运行后，生成<strong><code>html格式</code></strong>文件后，点击右上角的<code>publish</code>，选择在<code>Rpub</code>公布（需要新建一个账号），保存链接地址，粘贴在<code>github</code>名下<code>README文件</code>，保存后同步到<code>github</code>。</p>
+Markdown格式的文件运行(<code>Knit</code>)后，在成功生成<code>html文件</code>以后，点击右上角的<code>publish</code>，选择在<code>Rpubs</code>公布（需要新建一个账号），这时会生成一个链接地址，这是<code>Rmd</code>代码的在线展示形式。</p>
+</div>
+<div id="复制这个https格式的链接地址粘贴补充在github名下自带的readme文件保存并同步." class="section level4">
+<h4>复制这个<code>https</code>格式的<code>*链接地址*</code>，粘贴补充在<code>github</code>名下自带的<code>README文件</code>，保存并同步.</h4>
+<p>备注：<code>README文件</code>等代码文件，可以用<code>记事本</code>软件打开，但强烈建议用<code>editplus</code>或<code>notpad</code>或<code>sublime</code>等代码编辑软件打开修改）</p>
+</div>
+</div>
 </div>
 
 
