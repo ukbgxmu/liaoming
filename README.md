@@ -1,3 +1,2 @@
-#3 This is the `ukb-gxmu` assignment for 
+# This is the `ukb-gxmu` assignment for `R programming` in **Coursera**
 
-https://www.rpubs.com/maoyan/r-fun
