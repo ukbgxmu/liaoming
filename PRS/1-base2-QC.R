@@ -65,7 +65,7 @@ head(a0)
 a0[a0$rsid %in% a$SNP,c("rsid","chromosome","base_pair_location")] %>% head()
 a[a$SNP %in% a0$rsid,c("rsid","chromosome","base_pair_location")] %>% head()
 
-length(intersect(a$SNP,a0$rsid)) #381
+length(intersect(a$SNP,a0$rsid)) #
    
    
    

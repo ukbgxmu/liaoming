@@ -1,6 +1,7 @@
-#setwd("/Users/maoyan/SynologyDrive")
-#setwd("E:/nas/ukbA/data/liaoming/post_qc")
-setwd("E:/nas/ukbA/data/yangchao")
+## 第一步先修改工作目录，为导入数据所在的目录
+#setwd("E:/nas/ukbA/data/liaoming/post_qc")  # from liaoming's Yiwubu
+setwd("E:/nas/ukbA/data/yangchao")  # from liaoming's Yiwubu
+setwd("/Users/maoyan/Library/CloudStorage/SynologyDrive-ukbA/data/yangchao") # from liaoming's macbook Pro
 
 #https://choishingwan.github.io/PRS-Tutorial/base/
 
@@ -40,8 +41,8 @@ a<-a[a$effect_allele_frequency >0.01,]
 #INFO: The imputation information score
 #MAF: The minor allele frequency (MAF) of the SNP
 
-a<-a[,c("rs_id","effect_allele","other_allele", "standard_error","p_value","beta","effect_allele_frequency")]
-colnames(a)<-c("SNP","A1","A2", "SE","P","beta","MAF")
+a<-a[,c("rs_id","chromosome","base_pair_location","effect_allele","other_allele", "standard_error","p_value","beta","effect_allele_frequency")]
+colnames(a)<-c("SNP","CHR","BP","A1","A2", "SE","P","beta","MAF")
 # Output the gz file
 #fwrite(a, "a.gz", sep="\t")
 
