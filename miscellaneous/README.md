@@ -1,14 +1,18 @@
-# miscellaneous：a collection of various types
+# miscellaneous：
 
-Consisting of many different kinds of things that are not obviously connected or do not easily fit into a single category. It describes items, ideas, or people gathered together but lacking a clear unifying theme.
+a collection of various types
+
+Consisting of many different kinds of things that are not obviously connected or do not easily fit into a single category. 
+
+It describes items, ideas, or people gathered together but lacking a clear unifying theme.
 
 Key Nuances:
 
-    Implies diversity without deliberate organization.
+    a. Implies diversity without deliberate organization.
 
-    Often includes minor, unimportant, or leftover items.
+    b. Often includes minor, unimportant, or leftover items.
 
-    Used to label groups of things that don’t belong elsewhere.
+    c. Used to label groups of things that don’t belong elsewhere.
 
 
  1. 统计获奖人员奖项.ipynb
