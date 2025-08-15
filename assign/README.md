@@ -2,7 +2,7 @@
 
 This is the `ukb-gxmu` coding assignment 
 
-for `R programming` 
+for **R programming**
 
 in **Coursera**
 
