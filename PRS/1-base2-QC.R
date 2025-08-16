@@ -1,7 +1,7 @@
-## 第一步先修改工作目录，为导入数据所在的目录
-#setwd("E:/nas/ukbA/data/liaoming/post_qc")  # from liaoming's Yiwubu
-setwd("E:/nas/ukbA/data/yangchao")  # from liaoming's Yiwubu
-setwd("/Users/maoyan/Library/CloudStorage/SynologyDrive-ukbA/data/yangchao") # from liaoming's macbook Pro
+#setwd("/Users/maoyan/SynologyDrive")
+#setwd("E:/nas/ukbA/data/liaoming/post_qc")# from liaoming's YIWUBU
+setwd("E:/nas/ukbA/data/yangchao") # from liaoming's YIWUBU
+setwd("/Users/maoyan/Library/CloudStorage/SynologyDrive-ukbA/data/yangchao")
 
 #https://choishingwan.github.io/PRS-Tutorial/base/
 
@@ -10,12 +10,12 @@ library(data.table)
 
 #The first step in Polygenic Risk Score (PRS) analyses is to generate or obtain the base data (GWAS summary statistics).
 
-## a<-read.table("N96_meta_finnest_22062022.tsv",head=1)
+a<-read.table("N96_meta_finnest_22062022.tsv",head=1)
 ## the colnanmes are as follows:
 ## chromosome	base_pair_location	effect_allele	other_allele	beta	standard_error	
 ## effect_allele_frequency	p_value	rs_id	n_studies	effects
 
-a<-read.table("GCST90454222.h.tsv",head=1)
+## a<-read.table("GCST90454222.h.tsv",head=1)
 
 colnames(a)
 ## the colnanmes are as follows:
@@ -23,7 +23,7 @@ colnames(a)
 ## effect_allele_frequency	p_value	rsid	rs_id	n_studies	effects	hm_coordinate_conversion	hm_code	variant_id
 
 is.na(a$effect_allele_frequency)%>%sum()
-a<-a[!is.na(a$effect_allele_frequency),]
+#a<-a[!is.na(a$effect_allele_frequency),]
 
 range(a$effect_allele_frequency)
 a<-a[a$effect_allele_frequency >0.01,]
@@ -41,8 +41,8 @@ a<-a[a$effect_allele_frequency >0.01,]
 #INFO: The imputation information score
 #MAF: The minor allele frequency (MAF) of the SNP
 
-a<-a[,c("rs_id","chromosome","base_pair_location","effect_allele","other_allele", "standard_error","p_value","beta","effect_allele_frequency")]
-colnames(a)<-c("SNP","CHR","BP","A1","A2", "SE","P","beta","MAF")
+a<-a[,c("rs_id","effect_allele","other_allele", "standard_error","p_value","beta","effect_allele_frequency")]
+colnames(a)<-c("SNP","A1","A2", "SE","P","beta","MAF")
 # Output the gz file
 #fwrite(a, "a.gz", sep="\t")
 
@@ -56,6 +56,17 @@ ambiguous <- (a_nodup$A1 == "A" & a_nodup$A2 == "T") |
              (a_nodup$A1 == "G" & a_nodup$A2 == "C") |
              (a_nodup$A1 == "C" & a_nodup$A2 == "G")
 a_qc <- a_nodup[!ambiguous, ]
-fwrite(a_qc, "base_a.QC.gz", sep = "\t")
+fwrite(a_qc, "base2_a.QC.gz", sep = "\t")
 
+####
+head(a)
+head(a0)
 
+a0[a0$rsid %in% a$SNP,c("rsid","chromosome","base_pair_location")] %>% head()
+a[a$SNP %in% a0$rsid,c("rsid","chromosome","base_pair_location")] %>% head()
+
+length(intersect(a$SNP,a0$rsid)) #
+   
+   
+   
+   
