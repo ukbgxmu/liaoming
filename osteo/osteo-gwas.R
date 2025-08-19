@@ -1,6 +1,6 @@
-#
+#### prepare the exposure data of osteocalcin for MR #####
 
-### osteo from Zhengjie
+### 1.osteo from Zhengjie
 
 ## input file
 # from liaoming's dell
@@ -58,7 +58,8 @@ outcome_dat<- format_data(data.frame(data), type = "outcome", header = TRUE,
                           phenotype_col = "Phenotype", 
                           snp_col = "rsid", beta_col = "all_inv_var_meta_beta",
                           se_col = "all_inv_var_meta_sebeta", 
-                          eaf_col = "FINNGEN_af_alt",  #UKBB_af_alt
+                         # eaf_col = "FINNGEN_af_alt", 
+                          eaf_col = "UKBB_af_alt",  
                           effect_allele_col = "ALT",
                           other_allele_col = "REF", pval_col = "all_inv_var_meta_p")
 # harmonise the exposure and outcome data
@@ -70,7 +71,7 @@ ivw<- mr(dat, method_list=c( "mr_ivw"))
 ivwOR<-generate_odds_ratios(ivw)
 
 
-### osteo from our meta
+### 2. steo from our meta
 a<-read.table("D:/R/ubuntu/code/ocn.meta-results5e8.txt",head=T) #
 a$Phenotype="osteocalcin"
 Ins<-format_data(a, type = "exposure", header = TRUE,
@@ -89,5 +90,15 @@ Inss<-clump_data(
   bfile = NULL,
   plink_bin = NULL
 )
+head(Inss)
+(Inss$beta.exposure/Inss$se.exposure)^2
 
+Inss$Phenotype="osteo"
+exposure_dat<- format_data(Inss, type = "exposure", header = TRUE,
+                           phenotype_col = "Phenotype", 
+                           snp_col = "SNP", beta_col = "beta.exposure",
+                           se_col = "se.exposure", 
+                          # eaf_col = "eaf",  
+                           effect_allele_col = "effect_allele.exposure",
+                           other_allele_col = "other_allele.exposure", pval_col = "pval.exposure")
 
