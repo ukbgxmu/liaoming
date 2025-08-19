@@ -2,56 +2,71 @@
 
 ### osteo from Zhengjie
 
+# from liaoming's dell
 Ins<-readxl::read_excel("D:/study/ouyingmei/epigraphdb-pqtl-master/data/Instruments.xlsx",1)
 Ins[grep("BGLAP",Ins$Phenotype),]
 
+# frome liaoming macbook Pro
+setwd("~/Documents/GitHub/liaoming/osteo")
+Ins<-readxl::read_excel("output/Instruments.xlsx",1)
 
+# select osteocalcin
+osteo<-Ins[grep("BGLAP",Ins$Phenotype),]
+(osteo$beta/osteo$se)^2
+colnames(osteo)
+
+osteo$Phenotype="osteo"
+exposure_dat<- format_data(osteo, type = "exposure", header = TRUE,
+                          phenotype_col = "Phenotype", 
+                          snp_col = "SNP", beta_col = "beta",
+                          se_col = "se", 
+                          eaf_col = "eaf",  
+                          effect_allele_col = "effect_allele",
+                          other_allele_col = "other_allele", pval_col = "pval")
+
+
+#rs5030062  rs5030062 - chr3:186736291-186736491 hg38 (Human Dec. 2013 (GRCh38/hg38))
+#rs4253254 
+#rs62143194 
+
+library(TwoSampleMR)  #remotes::install_github("MRCIEU/TwoSampleMR")
+library(Rsamtools)
+library(data.table)
 
 ## MR1
-b<-read.table("D:/2-postDR/mo/osteocalcinGWAS20241024/data/pcos/GCST90077795/harmonised/34662886-GCST90077795-EFO_0000660.h.tsv/harmonised.qc.tsv",header =T)
-colnames(b)
-b$Phenotype="PCOS"
-range(b$beta)
-range(b$odds_ratio) #OR = exp(beta) 
-b$beta<-log(b$odds_ratio)
-outcome_dat<- format_data(b, type = "outcome", header = TRUE,
+setwd("/Users/maoyan/Library/CloudStorage/SynologyDrive-ukbA/data/liaoming/MR")
+
+#obesity
+file_tsv<-"meta_analysis_ukbb_summary_stats_filtered_finngen_R11_E4_OBESITY_meta_out_filtered.tsv.tsv"
+file_tbi<-"meta_analysis_ukbb_summary_stats_filtered_finngen_R11_E4_OBESITY_meta_out_filtered.tsv.gz.tbi"
+pheno_name<-"obesity"
+
+target_range <- "3:186736291-186736491"  # 替换成你感兴趣的染色体区域
+# 使用Tabix提取数据
+tabix_file <- TabixFile(file_tsv,index = file_tbi)
+result <- scanTabix(tabix_file, param = GRanges(target_range)) #
+# 读取文件前几行检查列名
+file_lines <- readLines(file_tsv, n = 5)
+col_names <- unlist(strsplit(sub("^#", "", file_lines[1]), "\t"))
+data <- fread(text = result[[1]], header = FALSE)
+setnames(data, col_names)
+
+data$Phenotype=pheno_name
+outcome_dat<- format_data(data.frame(data), type = "outcome", header = TRUE,
                           phenotype_col = "Phenotype", 
-                          snp_col = "variant_id", beta_col = "beta",
-                          se_col = "standard_error", 
-                          eaf_col = "effect_allele_frequency", 
-                          effect_allele_col = "effect_allele",
-                          other_allele_col = "other_allele", pval_col = "p_value")
-
-
+                          snp_col = "rsid", beta_col = "all_inv_var_meta_beta",
+                          se_col = "all_inv_var_meta_sebeta", 
+                          eaf_col = "FINNGEN_af_alt",  #UKBB_af_alt
+                          effect_allele_col = "ALT",
+                          other_allele_col = "REF", pval_col = "all_inv_var_meta_p")
 # harmonise the exposure and outcome data
-dat <- harmonise_data(exposure_dat = Ins,outcome_dat = outcome_dat,action = 1)
+dat <- harmonise_data(exposure_dat = exposure_dat,outcome_dat = outcome_dat,action = 1)
 
 # run the MR analyses and calculate OR
-mr_results <- mr(dat) #此步耗时很长 # main MR analysis # method_list=c("mr_wald_ratio", "mr_ivw")
-#saveRDS(mr_results,"./sun-pQTL-PCOS.rds")
-#mr_results<-readRDS("./sun-pQTL-PCOS.rds")
-
-ivw<- mr(dat, method_list=c( "mr_ivw")) #这一步很快
+mr_results <- mr(dat) 
+ivw<- mr(dat, method_list=c( "mr_ivw")) 
 ivwOR<-generate_odds_ratios(ivw)
 
 
-
-### MR2
-Ins1$F1<-(Ins1$beta/Ins1$se)^2
-
-# read in the outcome data
-outcome_dat<- extract_outcome_data(snps = Ins1$SNP, proxies = TRUE, # notes:Extracting 1562 SNP(s) from 1 GWAS(s),proxies 123 SNP(s)
-                                   outcomes =  "finn-b-E4_OVARFAIL")  
-# harmonise the exposure and outcome data
-Ins1$exposure<-"grn-ukb"
-colnames(Ins1)[grep("beta",colnames(Ins1))]<-"beta.exposure"
-colnames(Ins1)[grep("se",colnames(Ins1))]<-"se.exposure"
-colnames(Ins1)[grep("effect_allele",colnames(Ins1))]<-"effect_allele.exposure"
-colnames(Ins1)[grep("other_allele",colnames(Ins1))]<-"other_allele.exposure"
-colnames(Ins1)[grep("eaf",colnames(Ins1))]<-"eaf.exposure"
-dat1 <- harmonise_data(exposure_dat = Ins1,outcome_dat = outcome_dat) 
-mr_results2 <- mr(dat1) #此步耗时很长 # main MR analysis # method_list=c("mr_wald_ratio", "mr_ivw")
-ivw<- mr(dat1, method_list=c( "mr_ivw")) #这一步很快
-ivwOR<-generate_odds_ratios(ivw)
-
+### 
 
