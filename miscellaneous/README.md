@@ -15,13 +15,14 @@ Key Nuances:
     c. Used to label groups of things that don’t belong elsewhere.
 
 
- 1. 统计获奖人员奖项.ipynb
 
- 处理txt文档，数字的标题（奖项）行以下，是获奖人员名字（空格分开），统计获奖人员所获奖项的数目，导出excel表格。
-
- 2. test.ipynb
+ 1. test.ipynb
 
  test开头的文件均为测试文件，其‘test.R’是用Rstudio保存过来的，*sh*文件可以在jupyter notebook这里生成：通过‘!’测试每条指令可行以后，再生成*sh*文件。
+
+ 2. 统计获奖人员奖项.ipynb
+
+ 处理txt文档，数字的标题（奖项）行以下，是获奖人员名字（空格分开），统计获奖人员所获奖项的数目，导出excel表格。
 
  
  
