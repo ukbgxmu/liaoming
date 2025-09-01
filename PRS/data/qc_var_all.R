@@ -1,6 +1,10 @@
 setwd("D:/0-dell-NAS/ukbA/data/liaoming/PRS/RPL") #from liaoming's dell
 setwd("D:/R/ubuntu/ukb/all") #from liaoming's dell
 
+setwd("E:/nas/ukbA/data/liaoming/PRS/RPL") #from liaoming's YiWuBu
+library(readr)
+all<-read_delim("co-ccdc.tsv")
+
 all<-read_csv("co-ccdc.tsv")
 table(all$participant.p22001) 
 table(all$participant.p22006) 
@@ -35,21 +39,27 @@ table(all$participant.p22006,all$participant.p22001)
 ## 1. select the Caucasian male 
 qc1<-subset(all, participant.p22001==1 & participant.p22006 ==1)
 
-## 1. select the male 
+## 1.1 select the male 
 qc1<-subset(all, participant.p22001==1)
 
-## 1. select the female 
-qc1<-subset(all, participant.p22001==0)
-
 qc_check_male <- data.frame(FID = qc1[,1], IID = qc1[,1])
+colnames(qc_check_all)<-c("FID","IID")
 write.table(qc_check_male, file = "qc_check_male.txt", quote = FALSE, sep = "\t", row.names = FALSE)
 
+## 1.2 select the female 
+qc1<-subset(all, participant.p22001==0)
 
 qc_check_female <- data.frame(FID = qc1[,1], IID = qc1[,1])
+colnames(qc_check_all)<-c("FID","IID")
 write.table(qc_check_female, file = "qc_check_female.txt", quote = FALSE, sep = "\t", row.names = FALSE)
 
 
+## 2. select all：genetic sex = male or female 
 
+qc1<-subset(all, participant.p22001==1 | participant.p22001==0)
+qc_check_all <- data.frame(FID = qc1[,1], IID = qc1[,1])
+colnames(qc_check_all)<-c("FID","IID")
+write.table(qc_check_all, file = "qc_check_all.txt", quote = FALSE, sep = "\t", row.names = FALSE)
 
 
 
