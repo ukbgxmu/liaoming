@@ -1,9 +1,42 @@
 setwd("C:/Users/Ming/Nutstore/1/data/日常办公/非预期再住院") #from liaoming's dell
 library(readxl)
 
+# 住院患者出院后31天内非预期再住院上次和本次住院科室对比分析
+
 ######## 1. 读入数据 #################
 data05 <- read_excel("5月住院患者出院后31天内非预期再住院信息表.xls")
 data06 <- read_excel("6月住院患者出院后31天内非预期再住院信息表.xls")
+
+#table(data05$原因分析)
+nrow(data05)
+sum(grepl("前次住院收治科室未能准确填写病案首页“是否有" ,data05$原因分析) |
+      grepl( "病案首页填写错误",data05$原因分析))
+data005<-data05[!(grepl("前次住院收治科室未能准确填写病案首页“是否有",data05$原因分析) |
+                 grepl( "病案首页填写错误",data05$原因分析) ),]
+sum(data005$本次住院科室 == data005$上次住院科室)
+sum(data005$本次住院科室 != data005$上次住院科室)
+nrow(data005)
+
+table(data005$上次住院有无手术操作)
+table(data005$主要诊断疗效)
+
+#table(data005$原因分析)%>%sort()
+
+
+
+#table(data06$原因分析)
+nrow(data06)
+sum(grepl("前次住院收治科室未能准确填写病案首页“是否有" ,data06$原因分析) |
+      grepl( "病案首页填写错误",data06$原因分析))
+data006<-data06[!(grepl("前次住院收治科室未能准确填写病案首页“是否有",data06$原因分析) |
+                    grepl( "病案首页填写错误",data06$原因分析) ),]
+sum(data006$本次住院科室 == data006$上次住院科室)
+sum(data006$本次住院科室 != data006$上次住院科室)
+nrow(data006)
+
+table(data006$上次住院有无手术操作)
+table(data006$主要诊断疗效)
+#table(data006$原因分析)%>%sort()
 
 ####### 1.1 5月统计表格 ##################
 
@@ -72,7 +105,8 @@ ggplot(result_long, aes(x = 科室名称, y = 住院次数, fill = 住院类型)
     geom_text(aes(label = 住院次数), 
               position = position_dodge(width = 0.9), 
               vjust = -0.3, size = 3) +
-    labs(x = "科室名称", y = "住院次数", fill = "住院类型") +
+    labs(x = "", y = "住院次数", fill = "住院类型") +
+  ggtitle("2025年5月住院患者出院后31天内非预期再住院上次和本次住院科室对比分析")+
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
@@ -104,14 +138,14 @@ ggplot(result_long, aes(x = 科室名称, y = 住院次数, fill = 住院类型)
 
     result_table <- rbind(
       data.frame(
-        分组 = c(names(table_group), "0-31天"),
-        分子分母 = c(ratio_group, ratio_0_31),
-        百分比 = c(prop_group, prop_0_31)
+        分组 = c(names(table_group_06), "0-31天"),
+        分子分母 = c(ratio_group_06, ratio_0_31_06),
+        百分比 = c(prop_group_06, prop_0_31_06)
       ),
       data.frame(
         分组 = "非计划重返手术室再手术率",
-        分子分母 = paste0(27, "/", 分母),
-        百分比 = round(100 * 27 / 分母, 2)
+        分子分母 = paste0(27, "/", 分母_06),
+        百分比 = round(100 * 27 / 分母_06, 2)
       )
     )
     
@@ -140,6 +174,7 @@ ggplot(result_long, aes(x = 科室名称, y = 住院次数, fill = 住院类型)
         geom_text(aes(label = 住院次数), 
                   position = position_dodge(width = 0.9), 
                   vjust = -0.3, size = 3) +
-        labs(x = "科室名称", y = "住院次数", fill = "住院类型") +
+        labs(x = "", y = "住院次数", fill = "住院类型") +
+      ggtitle("2025年6月住院患者出院后31天内非预期再住院上次和本次住院科室对比分析")+
         theme_minimal() +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))
