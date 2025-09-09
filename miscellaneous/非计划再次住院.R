@@ -86,7 +86,7 @@ colnames(table_previous) <- c("科室名称", "上次住院次数")
 result <- merge(table_current, table_previous, by = "科室名称", all = TRUE)
 result[is.na(result)] <- 0
 
-library(ggplot2)
+library(ggplot2) 
 
 # 排序
 result <- result[order(result$本次住院次数, decreasing = TRUE), ]
