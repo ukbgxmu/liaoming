@@ -3,23 +3,28 @@ setwd("C:/Users/Administrator/Nutstore/2/data/日常办公/非预期再住院") 
 library(readxl)
 
 # 住院患者出院后31天内非预期再住院上次和本次住院科室对比分析
+# 原因分析那里只要修改文件名即可再次计算新的结果。
 
 ######## 1. 读入数据 #################
 data05 <- read_excel("7月住院患者出院后31天内非预期再住院信息表.xls")
 data06 <- read_excel("8月住院患者出院后31天内非预期再住院信息表.xls")
+# 还需要修改“非计划重返手术室再手术率”的分子
 
 #table(data05$原因分析)
-nrow(data05)
+nrow(data05) #此次只要修改文件名即可再次计算新的结果
+
 sum(grepl("前次住院收治科室未能准确填写病案首页“是否有" ,data05$原因分析) |
       grepl( "病案首页填写错误",data05$原因分析))
 data005<-data05[!(grepl("前次住院收治科室未能准确填写病案首页“是否有",data05$原因分析) |
                  grepl( "病案首页填写错误",data05$原因分析) ),]
-sum(data005$本次住院科室 == data005$上次住院科室)
-sum(data005$本次住院科室 != data005$上次住院科室)
+sum(data005$本次住院科室 == data005$上次住院科室);sum(data005$本次住院科室 == data005$上次住院科室)/nrow(data005)
+sum(data005$本次住院科室 != data005$上次住院科室);sum(data005$本次住院科室 != data005$上次住院科室)/nrow(data005)
+
 nrow(data005)
 
-table(data005$上次住院有无手术操作)
-table(data005$主要诊断疗效)
+table(data005$上次住院有无手术操作);table(data005$上次住院有无手术操作)/nrow(data005)
+table(data005$主要诊断疗效);table(data005$主要诊断疗效)/nrow(data005)
+
 
 #table(data005$原因分析)%>%sort()
 
@@ -77,7 +82,7 @@ result_table <- rbind(
 
 print(result_table)
 
-######### 1.2 5月作图 #####################
+######### 1.2 7月作图 #####################
 table_current <- as.data.frame(table(data05$`本次住院科室`))
 colnames(table_current) <- c("科室名称", "本次住院次数")
 
@@ -152,7 +157,7 @@ ggplot(result_long, aes(x = 科室名称, y = 住院次数, fill = 住院类型)
     
     print(result_table)
 
-    ######### 1.4 6月作图 #####################
+    ######### 1.4 8月作图 #####################
     table_current_06 <- as.data.frame(table(data06$`本次住院科室`))
     colnames(table_current_06) <- c("科室名称", "本次住院次数")
 
