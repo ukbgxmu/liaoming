@@ -1,17 +1,27 @@
-setwd("E:/朱瓦力") #from Yiwubu
+setwd("E:/朱瓦力")#from Yiwubu
 library(readxl)
-
-#近2年住院手术台均用血量
-
-######## 1. 读入数据 #################
-data <- read_excel("术中出血量监测明细1_9.xlsx")
-View(subset(data,住院科室=="儿科三病区"))
-# 选择与data1和data2相同的列
-data <- data[,c("住院科室","手术等级","出血量","RBC")]
-# 确保加载必要的包
 library(dplyr)
 library(ggplot2)
 library(tidyr)  
+#近2年住院手术台均用血量
+
+######## 1. 读入数据 #################
+data1 <- read_excel("术中出血量监测明细1_9.xlsx")
+#View(subset(data,住院科室=="儿科三病区"))
+data1 <- data1[,c("主刀医生","手术等级","出血量","RBC")]
+data2 <- read_excel("主刀匹配科室名单.xlsx")
+
+colnames(data1);colnames(data2)
+data<-left_join(data1,data2,by=)%>% filter(!is.na(Age))  
+data<-merge(data1,data2,by=1,all.x=TRUE)%>% filter(!is.na(科室))
+
+data<- read_excel("术中出血量监测明细1_9+匹配科室.xlsx")
+colnames(data)[grep("住院科室",colnames(data))]<-"旧的住院科室"
+colnames(data)[grep("主刀所在科室",colnames(data))]<-"住院科室"
+  #住院科室
+# 以“(”分列，只要前面的内容
+#data$住院科室 <- sapply(strsplit(as.character(data$住院科室), "\\("), `[`, 1)
+#data$住院科室 <- trimws(data$住院科室)  # 去除处理后可能存在的多余空格
 
 # 1-2 #
 # 移除data中包含NA的行
@@ -109,10 +119,10 @@ plot_34 <- ggplot(top_10_data_34, aes(x = 住院科室, y = 平均用血量, fil
   # 在柱子上添加用血具体数字，保留1位小数
   geom_text(aes(label = sprintf("%.1f", 平均用血量)), 
             position = position_dodge(width = 0.9), 
-            vjust = -0.5, size = 3) +  ylim(0, 18)+
+            vjust = -0.5, size = 3) +  ylim(0, 10)+
   scale_fill_manual(values = c("3" = "lightblue", "4" = "lightcoral")) +
   labs(title = "手术等级3和4级手术平均用血量前10的住院科室(2025年1-8月)",
-       x = "住院科室",
+       x = "",
        y = "平均用血量",
        fill = "手术等级") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
