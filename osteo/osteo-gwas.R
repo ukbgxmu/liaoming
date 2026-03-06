@@ -1,7 +1,8 @@
-#D:\R\ubuntu\code
+#### prepare the exposure data of osteocalcin for MR #####
 
-### osteo from Zhengjie
+### 1.osteo from Zhengjie
 
+## input file
 # from liaoming's dell
 Ins<-readxl::read_excel("D:/study/ouyingmei/epigraphdb-pqtl-master/data/Instruments.xlsx",1)
 Ins[grep("BGLAP",Ins$Phenotype),]
@@ -10,6 +11,7 @@ Ins[grep("BGLAP",Ins$Phenotype),]
 setwd("~/Documents/GitHub/liaoming/osteo")
 Ins<-readxl::read_excel("output/Instruments.xlsx",1)
 
+## prepare file
 # select osteocalcin
 osteo<-Ins[grep("BGLAP",Ins$Phenotype),]
 (osteo$beta/osteo$se)^2
@@ -56,7 +58,8 @@ outcome_dat<- format_data(data.frame(data), type = "outcome", header = TRUE,
                           phenotype_col = "Phenotype", 
                           snp_col = "rsid", beta_col = "all_inv_var_meta_beta",
                           se_col = "all_inv_var_meta_sebeta", 
-                          eaf_col = "FINNGEN_af_alt",  #UKBB_af_alt
+                         # eaf_col = "FINNGEN_af_alt", 
+                          eaf_col = "UKBB_af_alt",  
                           effect_allele_col = "ALT",
                           other_allele_col = "REF", pval_col = "all_inv_var_meta_p")
 # harmonise the exposure and outcome data
@@ -68,5 +71,34 @@ ivw<- mr(dat, method_list=c( "mr_ivw"))
 ivwOR<-generate_odds_ratios(ivw)
 
 
-### 
+### 2. steo from our meta
+a<-read.table("D:/R/ubuntu/code/ocn.meta-results5e8.txt",head=T) #
+a$Phenotype="osteocalcin"
+Ins<-format_data(a, type = "exposure", header = TRUE,
+                 phenotype_col = "Phenotype", snp_col = "SNP", beta_col = "beta",
+                 se_col = "se", 
+                 #eaf_col = "effect_allele_frequency", 
+                 effect_allele_col = "other_allele",
+                 other_allele_col = "reference_allele", pval_col = "p.value")
+Inss<-clump_data(
+  Ins,
+  clump_kb = 10000,
+  clump_r2 = 0.001,
+  clump_p1 = 5e-08,
+  clump_p2 = 5e-08,
+  pop = "EUR", #Options are "EUR", "SAS", "EAS", "AFR", "AMR".
+  bfile = NULL,
+  plink_bin = NULL
+)
+head(Inss)
+(Inss$beta.exposure/Inss$se.exposure)^2
+
+Inss$Phenotype="osteo"
+exposure_dat<- format_data(Inss, type = "exposure", header = TRUE,
+                           phenotype_col = "Phenotype", 
+                           snp_col = "SNP", beta_col = "beta.exposure",
+                           se_col = "se.exposure", 
+                          # eaf_col = "eaf",  
+                           effect_allele_col = "effect_allele.exposure",
+                           other_allele_col = "other_allele.exposure", pval_col = "pval.exposure")
 
